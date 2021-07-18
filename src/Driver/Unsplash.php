@@ -2,9 +2,9 @@
 
 namespace Chuoke\ImageGallery\Driver;
 
-use Illuminate\Http\Client\Response;
 use Chuoke\ImageGallery\Contracts\ListQueryParams;
 use Chuoke\ImageGallery\Params\UnsplashListQueryParams;
+use Illuminate\Http\Client\Response;
 
 /**
  * @see https://unsplash.com/documentation
@@ -60,6 +60,7 @@ class Unsplash extends AbstractGallery
         $this->checkRequestFailed($response);
 
         $data = $response->json('results');
+
         return [
             'images' => $data,
             'has_more' => ($params->per_page * $params->page) > $response->json('total'),

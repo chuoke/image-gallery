@@ -2,7 +2,6 @@
 
 namespace Chuoke\ImageGallery\Driver;
 
-use Exception;
 use Chuoke\ImageGallery\Contracts\ListQueryParams;
 
 class Bing extends AbstractGallery

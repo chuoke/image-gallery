@@ -2,11 +2,11 @@
 
 namespace Chuoke\ImageGallery;
 
-use InvalidArgumentException;
+use Chuoke\ImageGallery\Contracts\Gallery;
 use Chuoke\ImageGallery\Driver\Bing;
 use Chuoke\ImageGallery\Driver\Pexels;
 use Chuoke\ImageGallery\Driver\Unsplash;
-use Chuoke\ImageGallery\Contracts\Gallery;
+use InvalidArgumentException;
 
 class ImageGalleryFactory
 {
@@ -95,7 +95,7 @@ class ImageGalleryFactory
 
         $driverMethod = 'create' . ucfirst($name) . 'Driver';
 
-        if (!method_exists($this, $driverMethod)) {
+        if (! method_exists($this, $driverMethod)) {
             throw new InvalidArgumentException("Driver [{$name}] is not supported.");
         }
 

@@ -3,8 +3,8 @@
 namespace Chuoke\ImageGallery;
 
 use Chuoke\ImageGallery\Contracts\Gallery;
-use Chuoke\ImageGallery\Formatters\Formatter;
 use Chuoke\ImageGallery\Contracts\ResultFormatter;
+use Chuoke\ImageGallery\Formatters\Formatter;
 use Chuoke\ImageGallery\Params\BingListQueryParams;
 use Chuoke\ImageGallery\Params\PexelsListQueryParams;
 use Chuoke\ImageGallery\Params\UnsplashListQueryParams;
@@ -41,7 +41,7 @@ class ImageGallery
 
     public function format($result)
     {
-        if (!$this->formatter) {
+        if (! $this->formatter) {
             $this->formatter = $this->defaultFormatter();
         }
 
@@ -50,7 +50,7 @@ class ImageGallery
 
     public function formatList($result)
     {
-        if (!$this->formatter) {
+        if (! $this->formatter) {
             $this->formatter = $this->defaultFormatter();
         }
 
@@ -77,7 +77,7 @@ class ImageGallery
 
     public function transformListQueryParams($params)
     {
-        if (!is_array($params)) {
+        if (! is_array($params)) {
             return $params;
         }
 

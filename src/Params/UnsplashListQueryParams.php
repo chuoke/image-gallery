@@ -16,14 +16,14 @@ class UnsplashListQueryParams implements ListQueryParams
     /**
      * Page number to retrieve. (Optional; default: 1)
      *
-     * @var integer
+     * @var int
      */
     public $page = 1;
 
     /**
      * Number of items per page. (Optional; default: 10)
      *
-     * @var integer
+     * @var int
      */
     public $per_page = 10;
 
