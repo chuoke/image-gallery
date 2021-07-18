@@ -76,7 +76,7 @@ class Unsplash extends AbstractGallery
 
     protected function determineSearch($params)
     {
-        if (!$params instanceof UnsplashListQueryParams) {
+        if (! $params instanceof UnsplashListQueryParams) {
             return false;
         }
 
