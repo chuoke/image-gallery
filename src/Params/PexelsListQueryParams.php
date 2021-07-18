@@ -2,9 +2,9 @@
 
 namespace Chuoke\ImageGallery\Params;
 
-use Chuoke\ImageGallery\Contracts\ListQueryParams;
+use Chuoke\ImageGallery\Params\ListQueryParams;
 
-class PexelsListQueryParams implements ListQueryParams
+class PexelsListQueryParams extends ListQueryParams
 {
     /**
      * Search terms.

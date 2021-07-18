@@ -31,7 +31,7 @@ class Formatter implements ResultFormatter
     /**
      * Format image list result.
      *
-     * @param  mixed  $images
+     * @param  mixed  $data
      * @param  Gallery  $gallery
      * @return mixed
      */

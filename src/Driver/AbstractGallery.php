@@ -9,6 +9,11 @@ use Chuoke\ImageGallery\Exceptions\ImageGalleryRequestErrorException;
 abstract class AbstractGallery implements Gallery
 {
     /**
+     * @var string
+     */
+    protected $name;
+
+    /**
      * Base url
      *
      * @var string
@@ -18,7 +23,7 @@ abstract class AbstractGallery implements Gallery
     /**
      * Http request client instance
      *
-     * @var \Illuminate\Http\Client\Factory
+     * @var \Illuminate\Http\Client\PendingRequest
      */
     protected $http;
 
@@ -63,22 +68,22 @@ abstract class AbstractGallery implements Gallery
     /**
      * Get HTTP instance
      *
-     * @return \Illuminate\Http\Client\Factory
+     * @return \Illuminate\Http\Client\PendingRequest
      */
     protected function http()
-    {
-        return $this->makeHttp();
-    }
-
-    /**
-     * @return \Illuminate\Http\Client\Factory
-     */
-    protected function makeHttp()
     {
         if ($this->http) {
             return $this->http;
         }
 
+        return $this->makeHttp();
+    }
+
+    /**
+     * @return \Illuminate\Http\Client\PendingRequest
+     */
+    protected function makeHttp()
+    {
         $this->http = (new Factory())
             ->baseUrl($this->baseUrl())
             ->withHeaders($this->withHeaders())

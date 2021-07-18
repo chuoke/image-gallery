@@ -2,9 +2,9 @@
 
 namespace Chuoke\ImageGallery\Params;
 
-use Chuoke\ImageGallery\Contracts\ListQueryParams;
+use Chuoke\ImageGallery\Params\ListQueryParams;
 
-class UnsplashListQueryParams implements ListQueryParams
+class UnsplashListQueryParams extends ListQueryParams
 {
     /**
      * Search terms.

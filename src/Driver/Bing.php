@@ -2,8 +2,7 @@
 
 namespace Chuoke\ImageGallery\Driver;
 
-use Exception;
-use Chuoke\ImageGallery\Contracts\ListQueryParams;
+use Chuoke\ImageGallery\Params\BingListQueryParams;
 
 class Bing extends AbstractGallery
 {
@@ -11,12 +10,11 @@ class Bing extends AbstractGallery
 
     protected $baseUrl = 'https://bing.com/';
 
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function get(ListQueryParams $params)
+    /**
+     * @param  \Chuoke\ImageGallery\Params\BingListQueryParams  $params
+     * @return array
+     */
+    public function get($params)
     {
         $response = $this->http()
             ->get(
@@ -36,7 +34,7 @@ class Bing extends AbstractGallery
         return 'HPImageArchive.aspx';
     }
 
-    protected function buildListQueryParams(ListQueryParams $params)
+    protected function buildListQueryParams(BingListQueryParams $params)
     {
         // format=js&idx=0&n=1&nc=1578321325588&pid=hp
         return $params->build();

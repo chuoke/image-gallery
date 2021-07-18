@@ -17,5 +17,5 @@ interface Gallery
      * @param  mixed  $params
      * @return array
      */
-    public function get(ListQueryParams $params);
+    public function get($params);
 }

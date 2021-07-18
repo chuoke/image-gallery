@@ -2,13 +2,12 @@
 
 namespace Chuoke\ImageGallery\Formatters;
 
-use Chuoke\ImageGallery\Contracts\Gallery;
+use Chuoke\ImageGallery\Driver\AbstractGallery as Gallery;
 
 class BingFormatter
 {
     public function format($image, Gallery $gallery)
     {
-        /** @var Bing $gallery */
         $titleAndCopyrighter = $this->parseTitleAndCopyrighter($image['copyright']);
 
         foreach (['url', 'copyrightlink',] as $field) {

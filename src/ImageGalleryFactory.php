@@ -106,11 +106,11 @@ class ImageGalleryFactory
      * Call a custom driver creator.
      *
      * @param  array  $config
-     * @return \Chuoke\ImageGallery\Contracts\Gallery
+     * @return \Chuoke\ImageGallery\ImageGallery
      */
     protected function callCustomCreator(array $config)
     {
-        $driver = $this->customCreators[$config['driver']]($this->app, $config);
+        $driver = $this->customCreators[$config['driver']]($config);
 
         return $driver;
     }
@@ -151,7 +151,7 @@ class ImageGalleryFactory
     /**
      * Create a new cache repository with the given implementation.
      *
-     * @param  \ImageGallery\Contracts\Gallery  $gallery
+     * @param  \Chuoke\ImageGallery\Contracts\Gallery  $gallery
      * @return \Chuoke\ImageGallery\ImageGallery
      */
     public function makeGallery(Gallery $gallery)
@@ -175,7 +175,7 @@ class ImageGalleryFactory
     /**
      * Get the default driver name.
      *
-     * @return string
+     * @return string|null
      */
     public function getDefaultGallery()
     {

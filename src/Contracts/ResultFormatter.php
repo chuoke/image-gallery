@@ -16,9 +16,9 @@ interface ResultFormatter
     /**
      * Format image list result.
      *
-     * @param  mixed  $images
+     * @param  mixed  $data
      * @param  Gallery  $gallery
      * @return mixed
      */
-    public function formatList($images, Gallery $gallery);
+    public function formatList($data, Gallery $gallery);
 }

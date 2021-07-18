@@ -2,7 +2,6 @@
 
 namespace Chuoke\ImageGallery\Params;
 
-
 class BingListQueryParams extends ListQueryParams
 {
     /**

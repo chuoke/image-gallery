@@ -43,7 +43,11 @@ class Pexels extends AbstractGallery
         ];
     }
 
-    public function get(ListQueryParams $params)
+    /**
+     * @param \Chuoke\ImageGallery\Params\PexelsListQueryParams $params
+     * @return array
+     */
+    public function get($params)
     {
         $response = $this->http()->get(
             $this->determineListQueryScope($params),
