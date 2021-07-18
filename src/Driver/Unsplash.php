@@ -2,9 +2,8 @@
 
 namespace Chuoke\ImageGallery\Driver;
 
-use Illuminate\Http\Client\Response;
-use Chuoke\ImageGallery\Contracts\ListQueryParams;
 use Chuoke\ImageGallery\Params\UnsplashListQueryParams;
+use Illuminate\Http\Client\Response;
 
 /**
  * @see https://unsplash.com/documentation

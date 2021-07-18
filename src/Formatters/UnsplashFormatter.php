@@ -6,7 +6,6 @@ use Chuoke\ImageGallery\Contracts\Gallery;
 
 class UnsplashFormatter
 {
-
     public function format($image, Gallery $gallery)
     {
         $result = [

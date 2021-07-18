@@ -2,9 +2,8 @@
 
 namespace Chuoke\ImageGallery\Driver;
 
-use Illuminate\Http\Client\Response;
-use Chuoke\ImageGallery\Contracts\ListQueryParams;
 use Chuoke\ImageGallery\Params\PexelsListQueryParams;
+use Illuminate\Http\Client\Response;
 
 /**
  * @see https://www.pexels.com/api/documentation/

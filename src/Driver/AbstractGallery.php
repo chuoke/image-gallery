@@ -2,9 +2,9 @@
 
 namespace Chuoke\ImageGallery\Driver;
 
-use Illuminate\Http\Client\Factory;
 use Chuoke\ImageGallery\Contracts\Gallery;
 use Chuoke\ImageGallery\Exceptions\ImageGalleryRequestErrorException;
+use Illuminate\Http\Client\Factory;
 
 abstract class AbstractGallery implements Gallery
 {
@@ -47,7 +47,7 @@ abstract class AbstractGallery implements Gallery
     public function setConfig(array $config)
     {
         foreach ($this->configurable as $setting) {
-            if (!isset($config[$setting])) {
+            if (! isset($config[$setting])) {
                 continue;
             }
 
