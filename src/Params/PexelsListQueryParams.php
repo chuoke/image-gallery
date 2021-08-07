@@ -2,8 +2,6 @@
 
 namespace Chuoke\ImageGallery\Params;
 
-use Chuoke\ImageGallery\Params\ListQueryParams;
-
 class PexelsListQueryParams extends ListQueryParams
 {
     /**
