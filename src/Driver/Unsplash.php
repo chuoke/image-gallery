@@ -62,7 +62,7 @@ class Unsplash extends AbstractGallery
      */
     public function search($params)
     {
-        $response = $this->http()->get('search/photos', $params->build());
+        $response = $this->http()->get('search/photos', array_filter($params->build()));
 
         $this->checkRequestFailed($response);
 

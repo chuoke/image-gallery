@@ -67,4 +67,14 @@ class BaseTest extends TestCase
 
         $this->assertArrayHasKey('images', $data);
     }
+
+    /** @test */
+    public function can_unsplash_search()
+    {
+        $imageGallery = $this->factory()->gallery('unsplash');
+
+        $data = $imageGallery->get(['keywords' => 'mountain']);
+
+        $this->assertArrayHasKey('images', $data);
+    }
 }
