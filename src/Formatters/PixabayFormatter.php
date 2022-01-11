@@ -46,7 +46,7 @@ class PixabayFormatter
                 'url' => $image[$realFiled],
             ];
 
-            if ($key !== 'vecter') {
+            if ($key !== 'vector') {
                 $result['width'] = $image[$field . 'Width'] ?? $result['width'];
                 $result['height'] = $image[$field . 'Height'] ?? $result['height'];
                 $result['url'] = $image[$realFiled];
