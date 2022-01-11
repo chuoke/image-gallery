@@ -77,4 +77,14 @@ class BaseTest extends TestCase
 
         $this->assertArrayHasKey('images', $data);
     }
+
+    /** @test */
+    public function can_pixabay_work()
+    {
+        $imageGallery = $this->factory()->gallery('pixabay');
+
+        $data = $imageGallery->get([]);
+
+        $this->assertArrayHasKey('images', $data);
+    }
 }

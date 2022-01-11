@@ -16,13 +16,8 @@ class Formatter implements ResultFormatter
      */
     public function format($image, Gallery $gallery)
     {
-        switch ($gallery->getName()) {
-            case 'bing':
-                return (new BingFormatter())->format($image, $gallery);
-            case 'pexels':
-                return (new PexelsFormatter())->format($image, $gallery);
-            case 'unsplash':
-                return (new UnsplashFormatter())->format($image, $gallery);
+        if ($formatter = $this->createFormtter($gallery)) {
+            return $formatter->format($image, $gallery);
         }
 
         return $image;
@@ -37,15 +32,26 @@ class Formatter implements ResultFormatter
      */
     public function formatList($data, Gallery $gallery)
     {
-        switch ($gallery->getName()) {
-            case 'bing':
-                return (new BingFormatter())->formatList($data, $gallery);
-            case 'pexels':
-                return (new PexelsFormatter())->formatList($data, $gallery);
-            case 'unsplash':
-                return (new UnsplashFormatter())->formatList($data, $gallery);
+        if ($formatter = $this->createFormtter($gallery)) {
+            return $formatter->formatList($data, $gallery);
         }
 
         return $data;
+    }
+
+    protected function createFormtter(Gallery $gallery)
+    {
+        switch ($gallery->getName()) {
+            case 'bing':
+                return new BingFormatter();
+            case 'pexels':
+                return new PexelsFormatter();
+            case 'unsplash':
+                return new UnsplashFormatter();
+            case 'pixabay':
+                return new PixabayFormatter();
+        }
+
+        return null;
     }
 }

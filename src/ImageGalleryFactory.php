@@ -5,6 +5,7 @@ namespace Chuoke\ImageGallery;
 use Chuoke\ImageGallery\Contracts\Gallery;
 use Chuoke\ImageGallery\Driver\Bing;
 use Chuoke\ImageGallery\Driver\Pexels;
+use Chuoke\ImageGallery\Driver\Pixabay;
 use Chuoke\ImageGallery\Driver\Unsplash;
 use InvalidArgumentException;
 
@@ -95,7 +96,7 @@ class ImageGalleryFactory
 
         $driverMethod = 'create' . ucfirst($name) . 'Driver';
 
-        if (! method_exists($this, $driverMethod)) {
+        if (!method_exists($this, $driverMethod)) {
             throw new InvalidArgumentException("Driver [{$name}] is not supported.");
         }
 
@@ -146,6 +147,17 @@ class ImageGalleryFactory
     public function createUnsplashDriver(array $config)
     {
         return $this->makeGallery(new Unsplash($config));
+    }
+
+    /**
+     * Create an instance of the Unsplash gallery driver.
+     *
+     * @param  array  $config
+     * @return \Chuoke\ImageGallery\ImageGallery
+     */
+    public function createPixabayDriver(array $config)
+    {
+        return $this->makeGallery(new Pixabay($config));
     }
 
     /**
