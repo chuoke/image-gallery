@@ -2,8 +2,8 @@
 
 namespace Chuoke\ImageGallery\Driver;
 
-use Illuminate\Http\Client\Response;
 use Chuoke\ImageGallery\Params\PixabayListQueryParams;
+use Illuminate\Http\Client\Response;
 
 /**
  * @see https://pixabay.com/api/docs

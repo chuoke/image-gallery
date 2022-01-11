@@ -66,7 +66,7 @@ class PixabayListQueryParams extends ListQueryParams
      * Accepted values: "true", "false"
      * Default: "false"
      *
-     * @var boolean
+     * @var bool
      */
     public bool $safesearch = true;
 
@@ -101,14 +101,14 @@ class PixabayListQueryParams extends ListQueryParams
     /**
      * Minimum image width.
      *
-     * @var integer
+     * @var int
      */
     public $min_width = 0;
 
     /**
      * Minimum image height.
      *
-     * @var integer
+     * @var int
      */
     public $min_height = 0;
 
@@ -116,14 +116,14 @@ class PixabayListQueryParams extends ListQueryParams
      * Select images that have received an Editor's Choice award.
      * Accepted values: "true", "false"
      *
-     * @var boolean
+     * @var bool
      */
     public $editors_choice = false;
 
     /**
      * Is search video.
      *
-     * @var boolean
+     * @var bool
      */
     public bool $video = false;
 

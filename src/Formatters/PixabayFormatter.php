@@ -37,7 +37,7 @@ class PixabayFormatter
         foreach ($sizeMap as $key => $field) {
             $realFiled = $field . 'URL';
 
-            if (!array_key_exists($realFiled, $image)) {
+            if (! array_key_exists($realFiled, $image)) {
                 continue;
             }
 

@@ -96,7 +96,7 @@ class ImageGalleryFactory
 
         $driverMethod = 'create' . ucfirst($name) . 'Driver';
 
-        if (!method_exists($this, $driverMethod)) {
+        if (! method_exists($this, $driverMethod)) {
             throw new InvalidArgumentException("Driver [{$name}] is not supported.");
         }
 
