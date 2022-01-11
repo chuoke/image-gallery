@@ -61,7 +61,7 @@ class Pixabay extends AbstractGallery
     /**
      * @param  Response  $response
      * @return void
-     * @throws Exception
+     * @throws \Exception
      */
     protected function checkRequestFailed(Response $response): void
     {
