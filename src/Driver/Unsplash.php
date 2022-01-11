@@ -14,15 +14,15 @@ class Unsplash extends AbstractGallery
 
     protected $baseUrl = 'https://api.unsplash.com/';
 
-    protected $accessKey;
+    protected $apiKey;
 
     protected $configurable = [
-        'access_key',
+        'api_key',
     ];
 
-    public function setAccessKey($accessKey)
+    public function setApiKey($apiKey)
     {
-        $this->accessKey = $accessKey;
+        $this->apiKey = $apiKey;
 
         return $this;
     }
@@ -30,7 +30,7 @@ class Unsplash extends AbstractGallery
     public function withHeaders()
     {
         return [
-            'Authorization' => 'Client-ID ' . $this->accessKey,
+            'Authorization' => 'Client-ID ' . $this->apiKey,
         ];
     }
 
@@ -76,7 +76,7 @@ class Unsplash extends AbstractGallery
 
     protected function determineSearch($params)
     {
-        if (! $params instanceof UnsplashListQueryParams) {
+        if (!$params instanceof UnsplashListQueryParams) {
             return false;
         }
 
