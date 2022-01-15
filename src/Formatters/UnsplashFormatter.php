@@ -6,12 +6,23 @@ use Chuoke\ImageGallery\Contracts\Gallery;
 
 class UnsplashFormatter
 {
-    public function format($image, Gallery $gallery)
+    /**
+     * The current gallery driver.
+     *
+     * @var \Chuoke\ImageGallery\Contracts\Gallery
+     */
+    protected $gallery;
+
+    public function __construct(Gallery $gallery)
+    {
+        $this->gallery = $gallery;
+    }
+
+    public function format($image)
     {
         $result = [
             'id' => $image['id'],
-            'source' => $gallery->getName(),
-            // 'for_date' => null,
+            'source' => $this->gallery->getName(),
             'title' => $image['alt_description'] ?: $image['description'],
             'copyrighter' => $image['user']['name'],
             'copyright_link' => $image['links']['html'],
@@ -33,18 +44,13 @@ class UnsplashFormatter
         return $result;
     }
 
-    public function formatList($data, Gallery $gallery)
+    public function formatList($data)
     {
-        $images = $data['images'] ?? [];
-
         $result = [];
-        foreach ($images as $image) {
-            $result[] = $this->format($image, $gallery);
+        foreach ($data as $image) {
+            $result[] = $this->format($image);
         }
 
-        return [
-            'images' => $result,
-            'has_more' => $data['has_more'] ?? false,
-        ];
+        return $result;
     }
 }

@@ -2,23 +2,35 @@
 
 namespace Chuoke\ImageGallery\Formatters;
 
-use Chuoke\ImageGallery\Driver\AbstractGallery as Gallery;
+use Chuoke\ImageGallery\Driver\Bing;
 
 class BingFormatter
 {
-    public function format($image, Gallery $gallery)
+    /**
+     * The current gallery driver.
+     *
+     * @var \Chuoke\ImageGallery\Driver\Bing
+     */
+    protected $gallery;
+
+    public function __construct(Bing $gallery)
+    {
+        $this->gallery = $gallery;
+    }
+
+    public function format($image)
     {
         $titleAndCopyrighter = $this->parseTitleAndCopyrighter($image['copyright']);
 
         foreach (['url', 'copyrightlink',] as $field) {
-            if (! empty($image[$field]) && strpos($image[$field], 'http') !== 0) {
-                $image[$field] = implode('/', [$gallery->baseUrl(), ltrim($image[$field], '/')]);
+            if (!empty($image[$field]) && strpos($image[$field], 'http') !== 0) {
+                $image[$field] = implode('/', [$this->gallery->baseUrl(), ltrim($image[$field], '/')]);
             }
         }
 
         return [
             'id' => $image['hsh'],
-            'source' => $gallery->getName(),
+            'source' => $this->gallery->getName(),
             'for_date' => date('Y-m-d', strtotime($image['startdate'])),
             'title' => $titleAndCopyrighter['title'] ?: $image['title'],
             'copyrighter' => $titleAndCopyrighter['copyrighter'] ?: $image['copyright'],
@@ -49,18 +61,13 @@ class BingFormatter
         return $splited;
     }
 
-    public function formatList($data, Gallery $gallery)
+    public function formatList($data)
     {
-        $images = $data['images'] ?? [];
-
         $result = [];
-        foreach ($images as $image) {
-            $result[] = $this->format($image, $gallery);
+        foreach ($data as $image) {
+            $result[] = $this->format($image);
         }
 
-        return [
-            'images' => $result,
-            'has_more' => $data['has_more'] ?? false,
-        ];
+        return $result;
     }
 }

@@ -20,6 +20,11 @@ class Pixabay extends AbstractGallery
         'api_key',
     ];
 
+    /**
+     * @var \Chuoke\ImageGallery\Params\PixabayListQueryParams
+     */
+    protected $params;
+
     public function setApiKey(string $apiKey): static
     {
         $this->apiKey = $apiKey;
@@ -33,14 +38,34 @@ class Pixabay extends AbstractGallery
     }
 
     /**
-     * @param \Chuoke\ImageGallery\Params\PixabayListQueryParams $params
+     * @param \Chuoke\ImageGallery\Params\PixabayListQueryParams|array $params
+     * @return static
+     */
+    public function setParams($params)
+    {
+        $this->params = is_array($params) ? new PixabayListQueryParams($params) : $params;
+
+        return $this;
+    }
+
+    public function getParams()
+    {
+        return $this->params ?? ($this->params = new PixabayListQueryParams([]));
+    }
+
+    /**
+     * @param \Chuoke\ImageGallery\Params\PixabayListQueryParams|null $params
      * @return array
      */
-    public function get($params)
+    public function get($params = null)
     {
+        if ($params) {
+            $this->setParams($params);
+        }
+
         $response = $this->http()->get(
-            $this->determineQueryScope($params),
-            array_merge($params->build(), ['key' => $this->apiKey])
+            $this->determineQueryScope(),
+            array_merge($this->getParams()->build() ?? [], ['key' => $this->apiKey])
         );
 
         $this->checkRequestFailed($response);
@@ -48,14 +73,19 @@ class Pixabay extends AbstractGallery
         $data = $response->json();
 
         return [
-            'images' => $data['hits'],
-            'has_more' => $data['total'] > ($params->per_page * $params->page),
+            'data' => $data['hits'],
+            'has_more' => $data['total'] > ($this->getParams()->per_page * $this->getParams()->page),
         ];
     }
 
-    public function determineQueryScope(PixabayListQueryParams $params): string
+    public function determineQueryScope(): string
     {
-        return $params->video ? 'videos' : '';
+        return $this->getParams()->video ? 'videos' : '';
+    }
+
+    public function isVideo(): bool
+    {
+        return $this->getParams()->video;
     }
 
     /**

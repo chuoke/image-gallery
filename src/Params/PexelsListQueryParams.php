@@ -41,6 +41,8 @@ class PexelsListQueryParams extends ListQueryParams
      *           pink, brown, black, gray, white
      *           or any hexidecimal color code (eg. #ffffff).
      *
+     * Not for video.
+     *
      * @var string
      */
     public $color = '';
@@ -65,6 +67,13 @@ class PexelsListQueryParams extends ListQueryParams
     public $locale = '';
 
     /**
+     * Determine if the query is for video.
+     *
+     * @var boolean
+     */
+    public $video = false;
+
+    /**
      * @inheritDoc
      */
     public function build()
@@ -72,7 +81,7 @@ class PexelsListQueryParams extends ListQueryParams
         return array_filter([
             'query' => $this->keywords,
             'page' => $this->page,
-            'perPage' => $this->per_page,
+            'per_page' => $this->per_page,
             'locale' => $this->locale,
             'color' => $this->color,
             'orientation' => $this->orientation,

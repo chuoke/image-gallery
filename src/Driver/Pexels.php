@@ -24,6 +24,11 @@ class Pexels extends AbstractGallery
     ];
 
     /**
+     * @var \Chuoke\ImageGallery\Params\PexelsListQueryParams
+     */
+    protected $params;
+
+    /**
      * @param  string  $apiKey
      * @return $this
      */
@@ -43,14 +48,43 @@ class Pexels extends AbstractGallery
     }
 
     /**
-     * @param \Chuoke\ImageGallery\Params\PexelsListQueryParams $params
+     * @param \Chuoke\ImageGallery\Params\PexelsListQueryParams|array $params
+     * @return static
+     */
+    public function setParams($params)
+    {
+        $this->params = is_array($params) ? new PexelsListQueryParams($params) : $params;
+
+        return $this;
+    }
+
+    public function getParams()
+    {
+        return $this->params ?? ($this->params = new PexelsListQueryParams([]));
+    }
+
+    /**
+     * @param \Chuoke\ImageGallery\Params\PexelsListQueryParams|null $params
      * @return array
      */
-    public function get($params)
+    public function get($params = null)
+    {
+        if ($params) {
+            $this->setParams($params);
+        }
+
+        if ($this->getParams()->video) {
+            return $this->getVideos();
+        }
+
+        return $this->getImages();
+    }
+
+    public function getImages()
     {
         $response = $this->http()->get(
-            $this->determineListQueryScope($params),
-            $params->build()
+            $this->determineImageQueryScope(),
+            $this->getParams()->build()
         );
 
         $this->checkRequestFailed($response);
@@ -58,15 +92,45 @@ class Pexels extends AbstractGallery
         $data = $response->json();
 
         return [
-            'images' => $data['photos'],
+            'data' => $data['photos'],
             'has_more' => $data['total_results'] > ($data['page'] * $data['per_page']),
         ];
     }
 
-    public function determineListQueryScope(PexelsListQueryParams $params)
+    public function getVideos()
     {
-        return $params->keywords || $params->orientation || $params->color
-            ? 'search' : 'curated';
+        $response = $this->http()->get(
+            $this->determineVideoQueryScope(),
+            $this->getParams()->build()
+        );
+
+        $this->checkRequestFailed($response);
+
+        $data = $response->json();
+
+        return [
+            'data' => $data['videos'],
+            'has_more' => $data['total_results'] > ($data['page'] * $data['per_page']),
+        ];
+    }
+
+    public function determineImageQueryScope(): string
+    {
+        return $this->getParams()->keywords || $this->getParams()->orientation || $this->getParams()->color
+            ? 'search'
+            : 'curated';
+    }
+
+    public function determineVideoQueryScope(): string
+    {
+        return $this->getParams()->keywords || $this->getParams()->orientation || $this->getParams()->color
+            ? 'videos/search'
+            : 'videos/popular';
+    }
+
+    public function isVideo(): bool
+    {
+        return $this->getParams()->video;
     }
 
     protected function checkRequestFailed(Response $response)

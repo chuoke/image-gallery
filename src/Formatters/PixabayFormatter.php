@@ -2,25 +2,56 @@
 
 namespace Chuoke\ImageGallery\Formatters;
 
-use Chuoke\ImageGallery\Contracts\Gallery;
+use Chuoke\ImageGallery\Driver\Pixabay;
 
 class PixabayFormatter
 {
-    public function format($image, Gallery $gallery)
+    /**
+     * The current gallery driver.
+     *
+     * @var \Chuoke\ImageGallery\Driver\Pixabay
+     */
+    protected $gallery;
+
+    public function __construct(Pixabay $gallery)
+    {
+        $this->gallery = $gallery;
+    }
+
+    public function formatList($data)
+    {
+        $result = [];
+        foreach ($data as $image) {
+            $result[] = $this->format($image);
+        }
+
+        return $result;
+    }
+
+    public function format($image)
+    {
+        if ($this->gallery->isVideo()) {
+            return $this->formatVideo($image);
+        }
+
+        return $this->formatImage($image);
+    }
+
+    public function formatImage($image)
     {
         $result = [
             'id' => $image['id'],
-            'source' => $gallery->getName(),
+            'source' => $this->gallery->getName(),
             'type' => $image['type'],
-            'tags' => $image['tags'],
+            'tags' => array_filter(explode(',', $image['tags'] ?? '')),
             'title' => '',
             'copyrighter' => $image['user'],
             'copyright_link' => $image['pageURL'],
             'width' => $image['width'] ?? '',
             'height' => $image['height'] ?? '',
             'color' => '',
-            'size' => $image['imageSize'],
-            'url' => 'previewURL',
+            'size' => $image['imageURL'],
+            'url' => $image['webformatURL'],
             'thumb' => $image['previewURL'],
             'urls' => [],
         ];
@@ -56,18 +87,44 @@ class PixabayFormatter
         return $result;
     }
 
-    public function formatList($data, Gallery $gallery)
+    public function formatVideo($video)
     {
-        $images = $data['images'] ?? [];
+        $result = [
+            'id' => $video['id'],
+            'source' => $this->gallery->getName(),
+            'type' => $video['type'],
+            'tags' => array_filter(explode(',', $video['tags'] ?? '')),
+            'title' => '',
+            'copyrighter' => $video['user'],
+            'copyright_link' => $video['pageURL'],
 
-        $result = [];
-        foreach ($images as $image) {
-            $result[] = $this->format($image, $gallery);
+            'width' => '',
+            'height' => '',
+            'size' => '',
+            'url' => '',
+            'preveiw' => $video['videos']['tiny']['url'],
+            'urls' => [],
+            'duration' => $video['duration'],
+            'color' => '',
+        ];
+
+        foreach ($video['videos'] as $type => $val) {
+            if (0 >= $val['size']) {
+                continue;
+            }
+
+            $result['urls'][] = [
+                'type' => $type,
+                'url' => $val['url'],
+                'width' => $val['width'],
+                'height' => $val['height'],
+                'size' => $val['size'],
+            ];
         }
 
-        return [
-            'images' => $result,
-            'has_more' => $data['has_more'] ?? false,
-        ];
+        $original = $result['urls'][0] ?? [];
+        unset($result['type']);
+
+        return array_merge($result, $original);
     }
 }

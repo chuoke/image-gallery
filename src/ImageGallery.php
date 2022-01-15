@@ -46,7 +46,7 @@ class ImageGallery
             $this->formatter = $this->defaultFormatter();
         }
 
-        return $this->formatter->format($result, $this->driver);
+        return $this->formatter->format($result);
     }
 
     public function formatList($result)
@@ -60,7 +60,7 @@ class ImageGallery
 
     public function defaultFormatter()
     {
-        return new Formatter();
+        return new Formatter($this->driver);
     }
 
     /**
@@ -71,9 +71,11 @@ class ImageGallery
      */
     public function get($params)
     {
-        return $this->formatList(
-            $this->driver->get($this->transformListQueryParams($params))
-        );
+        $data = $this->driver->get($this->transformListQueryParams($params));
+
+        $data['data'] = $this->formatList($data['data']);
+
+        return $data;
     }
 
     public function transformListQueryParams($params)

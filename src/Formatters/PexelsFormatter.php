@@ -2,16 +2,46 @@
 
 namespace Chuoke\ImageGallery\Formatters;
 
-use Chuoke\ImageGallery\Contracts\Gallery;
+use Chuoke\ImageGallery\Driver\Pexels;
 
 class PexelsFormatter
 {
-    public function format($image, Gallery $gallery)
+    /**
+     * The current gallery driver.
+     *
+     * @var \Chuoke\ImageGallery\Driver\Pexels
+     */
+    protected $gallery;
+
+    public function __construct(Pexels $gallery)
+    {
+        $this->gallery = $gallery;
+    }
+
+    public function formatList($data)
+    {
+        $result = [];
+        foreach ($data as $item) {
+            $result[] = $this->format($item);
+        }
+
+        return $result;
+    }
+
+    public function format($image)
+    {
+        if ($this->gallery->isVideo()) {
+            return $this->formatVideo($image);
+        }
+
+        return $this->formatImage($image);
+    }
+
+    public function formatImage($image)
     {
         $result = [
             'id' => $image['id'],
-            'source' => $gallery->getName(),
-            // 'for_date' => null,
+            'source' => $this->gallery->getName(),
             'title' => '',
             'copyrighter' => $image['photographer'],
             'copyright_link' => $image['url'],
@@ -33,18 +63,33 @@ class PexelsFormatter
         return $result;
     }
 
-    public function formatList($data, Gallery $gallery)
+    public function formatVideo($video)
     {
-        $images = $data['images'] ?? [];
+        $result = [
+            'id' => $video['id'],
+            'source' => $this->gallery->getName(),
+            'title' => '',
+            'copyrighter' => $video['user']['name'],
+            'copyright_link' => $video['url'],
+            'width' => $video['width'],
+            'height' => $video['height'],
+            'duration' => $video['duration'],
+            'color' => '',
+            'url' => $video['video_files'][0]['link'],
+            'thumb' => $video['image'],
+            'urls' => [],
+        ];
 
-        $result = [];
-        foreach ($images as $image) {
-            $result[] = $this->format($image, $gallery);
+        foreach ($video['video_files'] as $url) {
+            $result['urls'][] = [
+                'url' => $url['link'],
+                'mime' => $url['file_type'],
+                'width' => $url['width'],
+                'height' => $url['height'],
+                'type' => $url['quality'],
+            ];
         }
 
-        return [
-            'images' => $result,
-            'has_more' => $data['has_more'] ?? false,
-        ];
+        return $result;
     }
 }

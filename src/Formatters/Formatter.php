@@ -8,16 +8,28 @@ use Chuoke\ImageGallery\Contracts\ResultFormatter;
 class Formatter implements ResultFormatter
 {
     /**
+     * The current gallery driver.
+     *
+     * @var \Chuoke\ImageGallery\Contracts\Gallery
+     */
+    protected $gallery;
+
+    public function __construct(Gallery $gallery)
+    {
+        $this->gallery = $gallery;
+    }
+
+    /**
      * Format one single image result.
      *
      * @param  mixed  $image
      * @param  Gallery  $gallery
      * @return mixed
      */
-    public function format($image, Gallery $gallery)
+    public function format($image)
     {
-        if ($formatter = $this->createFormtter($gallery)) {
-            return $formatter->format($image, $gallery);
+        if ($formatter = $this->createFormtter($this->gallery)) {
+            return $formatter->format($image);
         }
 
         return $image;
@@ -30,10 +42,10 @@ class Formatter implements ResultFormatter
      * @param  Gallery  $gallery
      * @return mixed
      */
-    public function formatList($data, Gallery $gallery)
+    public function formatList($data)
     {
-        if ($formatter = $this->createFormtter($gallery)) {
-            return $formatter->formatList($data, $gallery);
+        if ($formatter = $this->createFormtter($this->gallery)) {
+            return $formatter->formatList($data);
         }
 
         return $data;
@@ -43,13 +55,13 @@ class Formatter implements ResultFormatter
     {
         switch ($gallery->getName()) {
             case 'bing':
-                return new BingFormatter();
+                return new BingFormatter($gallery);
             case 'pexels':
-                return new PexelsFormatter();
+                return new PexelsFormatter($gallery);
             case 'unsplash':
-                return new UnsplashFormatter();
+                return new UnsplashFormatter($gallery);
             case 'pixabay':
-                return new PixabayFormatter();
+                return new PixabayFormatter($gallery);
         }
 
         return null;

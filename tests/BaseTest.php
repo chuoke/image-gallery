@@ -5,7 +5,7 @@ namespace Chuoke\ImageGallery\Tests;
 use Chuoke\ImageGallery\ImageGalleryFactory;
 use PHPUnit\Framework\TestCase;
 
-class BaseTest extends TestCase
+trait BaseTest
 {
     protected $factory;
 
@@ -24,67 +24,5 @@ class BaseTest extends TestCase
         }
 
         return $this->factory = new ImageGalleryFactory($this->config());
-    }
-
-    /** @test */
-    public function can_default_work()
-    {
-        $imageGallery = $this->factory()->gallery();
-
-        $this->assertEquals($this->config()['default'], $imageGallery->getDriver()->getName());
-
-        $data = $imageGallery->get([]);
-
-        $this->assertArrayHasKey('images', $data);
-    }
-
-    /** @test */
-    public function can_pexels_work()
-    {
-        $imageGallery = $this->factory()->gallery('pexels');
-
-        $data = $imageGallery->get([]);
-
-        $this->assertArrayHasKey('images', $data);
-    }
-
-    /** @test */
-    public function can_bing_work()
-    {
-        $imageGallery = $this->factory()->gallery('bing');
-
-        $data = $imageGallery->get([]);
-
-        $this->assertArrayHasKey('images', $data);
-    }
-
-    /** @test */
-    public function can_unsplash_work()
-    {
-        $imageGallery = $this->factory()->gallery('unsplash');
-
-        $data = $imageGallery->get([]);
-
-        $this->assertArrayHasKey('images', $data);
-    }
-
-    /** @test */
-    public function can_unsplash_search()
-    {
-        $imageGallery = $this->factory()->gallery('unsplash');
-
-        $data = $imageGallery->get(['keywords' => 'mountain']);
-
-        $this->assertArrayHasKey('images', $data);
-    }
-
-    /** @test */
-    public function can_pixabay_work()
-    {
-        $imageGallery = $this->factory()->gallery('pixabay');
-
-        $data = $imageGallery->get([]);
-
-        $this->assertArrayHasKey('images', $data);
     }
 }
