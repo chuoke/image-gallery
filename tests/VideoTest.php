@@ -4,7 +4,6 @@ namespace Chuoke\ImageGallery\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-
 class VideoTest extends TestCase
 {
     use BaseTest;

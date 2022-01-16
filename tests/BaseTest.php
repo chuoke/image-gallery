@@ -3,7 +3,6 @@
 namespace Chuoke\ImageGallery\Tests;
 
 use Chuoke\ImageGallery\ImageGalleryFactory;
-use PHPUnit\Framework\TestCase;
 
 trait BaseTest
 {

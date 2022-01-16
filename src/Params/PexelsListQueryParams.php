@@ -69,7 +69,7 @@ class PexelsListQueryParams extends ListQueryParams
     /**
      * Determine if the query is for video.
      *
-     * @var boolean
+     * @var bool
      */
     public $video = false;
 

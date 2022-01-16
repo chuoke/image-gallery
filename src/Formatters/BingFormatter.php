@@ -23,7 +23,7 @@ class BingFormatter
         $titleAndCopyrighter = $this->parseTitleAndCopyrighter($image['copyright']);
 
         foreach (['url', 'copyrightlink',] as $field) {
-            if (!empty($image[$field]) && strpos($image[$field], 'http') !== 0) {
+            if (! empty($image[$field]) && strpos($image[$field], 'http') !== 0) {
                 $image[$field] = implode('/', [$this->gallery->baseUrl(), ltrim($image[$field], '/')]);
             }
         }
