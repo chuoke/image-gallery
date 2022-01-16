@@ -42,7 +42,7 @@ class ImageGallery
 
     public function format($result)
     {
-        if (!$this->formatter) {
+        if (! $this->formatter) {
             $this->formatter = $this->defaultFormatter();
         }
 
@@ -51,7 +51,7 @@ class ImageGallery
 
     public function formatList($result)
     {
-        if (!$this->formatter) {
+        if (! $this->formatter) {
             $this->formatter = $this->defaultFormatter();
         }
 
@@ -80,7 +80,7 @@ class ImageGallery
 
     public function transformListQueryParams($params)
     {
-        if (!is_array($params)) {
+        if (! is_array($params)) {
             return $params;
         }
 
